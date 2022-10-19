@@ -1,0 +1,1 @@
+Inventory Application following theodinproject curriculum
