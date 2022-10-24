@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 console.log(
-  "This script populates some test books, authors, genres and bookinstances to your database. Specified database as argument - e.g.: populatedb mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true"
+  "This script populates some test maufactures, vehicles, and types to the database. Specified database as argument - e.g.: populatedb mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true"
 );
 
 // Get arguments passed on command line
@@ -92,12 +92,14 @@ function vehicleCreate(
   };
 
   var vehicle = new Vehicle(vehicledetail);
+  // console.log(vehicle);
+
   vehicle.save(function (err) {
     if (err) {
       cb(err, null);
       return;
     }
-    console.log("New Vehicle: " + vehicle);
+    console.log("New vehicle: " + vehicle);
     vehicles.push(vehicle);
     cb(null, vehicle);
   });
@@ -311,9 +313,8 @@ function createVehicles(cb) {
           "65,950",
           "Midnight Silver Metallic",
           27776,
-          "2019 Tesla Model S Long Range Midnight Silver Metallic ABS brakes, Active Cruise Control, Alloy wheels, Compass, Electronic Stability Control, Front dual zone A/C, Heated door mirrors, Heated front seats, Heated rear seats, Illuminated entry, Low tire pressure warning, Navigation System, Power Liftgate, Remote keyless entry, Traction control."[
-            types[1]
-          ],
+          "2019 Tesla Model S Long Range Midnight Silver Metallic ABS brakes, Active Cruise Control, Alloy wheels, Compass, Electronic Stability Control, Front dual zone A/C, Heated door mirrors, Heated front seats, Heated rear seats, Illuminated entry, Low tire pressure warning, Navigation System, Power Liftgate, Remote keyless entry, Traction control.",
+          [types[1]],
           callback
         );
       },
