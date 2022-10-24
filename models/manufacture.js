@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
 
 const Schema = mongoose.Schema;
 
@@ -11,7 +12,11 @@ const ManufactureSchema = new Schema({
 });
 
 ManufactureSchema.virtual("url").get(function () {
-  return `/catalog/manufacture/${this._id}`;
+  return `/inventory/manufacture/${this._id}`;
+});
+
+ManufactureSchema.virtual("founded_formatted").get(function () {
+  return DateTime.fromJSDate(this.founded).toISODate(); // format 'YYYY-MM-DD'
 });
 
 module.exports = mongoose.model("Manufacture", ManufactureSchema);
