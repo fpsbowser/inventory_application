@@ -75,7 +75,7 @@ exports.vehicle_detail = (req, res, next) => {
 
 // Display Vehicle create form on GET.
 exports.vehicle_create_get = (req, res, next) => {
-  // Get all manufactures and types, which we can use for adding to our book.
+  // Get all manufactures and types, which we can use for adding to our vehicle.
   async.parallel(
     {
       manufactures(callback) {
@@ -164,7 +164,7 @@ exports.vehicle_create_post = [
             return next(err);
           }
 
-          // Mark our selected genres as checked.
+          // Mark our selected types as checked.
           for (const type of results.types) {
             if (vehicle.type.includes(type._id)) {
               type.checked = "true";
@@ -325,7 +325,7 @@ exports.vehicle_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a Book object with escaped/trimmed data and old id.
+    // Create a Vehicle object with escaped/trimmed data and old id.
     const vehicle = new Vehicle({
       model: req.body.model,
       make: req.body.make,
@@ -355,7 +355,7 @@ exports.vehicle_update_post = [
             return next(err);
           }
 
-          // Mark our selected genres as checked.
+          // Mark our selected types as checked.
           for (const type of results.types) {
             if (vehicle.type.includes(type._id)) {
               type.checked = "true";
