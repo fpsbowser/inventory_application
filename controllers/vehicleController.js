@@ -194,13 +194,51 @@ exports.vehicle_create_post = [
 ];
 
 // Display Vehicle delete form on GET.
-exports.vehicle_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Vehicle delete GET");
+exports.vehicle_delete_get = (req, res, next) => {
+  async.parallel(
+    {
+      vehicle(callback) {
+        Vehicle.findById(req.params.id).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.vehicle == null) {
+        // No results.
+        res.redirect("/inventory/vehicles");
+      }
+      // Successful, so render.
+      res.render("vehicle_delete", {
+        title: "Delete Vehicle",
+        vehicle: results.vehicle,
+      });
+    }
+  );
 };
 
 // Handle Vehicle delete on POST.
-exports.vehicle_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Vehicle delete POST");
+exports.vehicle_delete_post = (req, res, next) => {
+  async.parallel(
+    {
+      vehicle(callback) {
+        Vehicle.find({ make: req.body.vehicleid }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      Vehicle.findByIdAndRemove(req.body.vehicleid, (err) => {
+        if (err) {
+          return next(err);
+        }
+        // Success - go to vehicle list
+        res.redirect("/inventory/vehicles");
+      });
+    }
+  );
 };
 
 // Display Vehicle update form on GET.
