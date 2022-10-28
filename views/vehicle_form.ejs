@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <header class="nav-header-container"><%- include('partials/header')%></header>
+  <body>
+    <section class="upper">
+      <h1 class="header-text"><%= title %></h1>
+    </section>
+    <section class="content">
+        <div class="form-container">
+            <form method="POST" action="">
+              <label for="model">Model name:</label>
+              <br>
+              <input type="text" name="model" id="model" required="true" <% if(locals.vehicle) {%> value="<%= vehicle.model %>" <% } %>/>
+              <br>
+              <label for="make">Choose Manufacture:</label>
+              <br>
+              <select id="make" name="make">
+                <% manufactures.forEach(manufacture => { %>
+                 <% if (locals.vehicle) { %>
+                  <option value="<%= manufacture._id %>" <%= manufacture._id === vehicle.make._id ? 'selected' : '' %> ><%= manufacture.name %></option>
+                  <%} else { %>
+                  <option value="<%= manufacture._id %>"><%= manufacture.name %></option>
+                  <% } %>
+                <% }) %>
+              </select>
+              <br>
+              <label for="price">Price:</label>
+              <br>
+              <input type="text" name="price" id="price" required="true" placeholder="Arm and a leg?" <% if(locals.vehicle) {%> value="<%= vehicle.price %>" <% } %>/>
+              <br>
+              <label for="color">Color:</label>
+              <br>
+              <input type="text" name="color" id="color" required="true" placeholder="White, Blue etc." <% if(locals.vehicle) {%> value="<%= vehicle.color %>" <% } %>/>
+              <br>
+              <label for="miles">Miles:</label>
+              <br>
+              <input type="number" name="miles" id="miles" required="true" <% if(locals.vehicle) {%> value="<%= vehicle.miles %>" <% } %>/>
+              <br>
+              <label for="description">Notes:</label>
+              <br>
+              <textarea name="description" id="description" cols="40" rows="7"><%= locals.vehicle ? vehicle.description : "" %></textarea>
+              <br>
+              <label>Type:</label>
+              <br>
+              <% types.forEach(type => { %>
+               <input type="checkbox" name="type" id="<%= type._id %>" value="<%= type._id %>" <%= type.checked ? "checked" : "" %> />
+               <label for="<%= type._id %>"><%= type.name %></label>
+              <% }) %>
+              <br>
+              <button type="submit" id="submit-btn">Submit</button>
+            </form>
+            <% if (locals.errors) { %>
+                <div class="error-container">
+                   <% errors.forEach(error => { %>
+                    <p><%- error.msg %></p>
+                   <% }) %>
+                </div>
+               <% } %>
+        </div>
+    </section>
+  </body>
+  <script src="/javascripts/script.js"></script>
+</html>
