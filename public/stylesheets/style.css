@@ -111,6 +111,8 @@ li {
 
 .content-wrapper {
   display: grid;
+  width: 99vw;
+  gap: 1rem;
   padding-top: 1rem;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
