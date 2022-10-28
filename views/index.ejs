@@ -2,10 +2,59 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
+  <header class="nav-header-container"><%- include('partials/header')%></header>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <section class="upper">
+      <h1 class="header-text"><%= title %></h1>
+      <p>
+        Welcome to my<strong> Inventory Application</strong>. This is a basic
+        inventory application I built following
+        <a
+          href="https://www.theodinproject.com/lessons/nodejs-inventory-application"
+          >theodinproject</a
+        >
+        cutticulum!
+      </p>
+      <br />
+      <p>
+        This application utilizes MongoDB for the database and uses the mongoose
+        library for queries.
+      </p>
+      <br />
+      <p>
+        The goal of this Application is to solidify my knowledge with
+        NodeJS/Express.
+      </p>
+    </section>
+    <section class="content">
+      <% if (error) { %>
+      <p>Error</p>
+      <%} else { %>
+      <div class="counts-container">
+        <div class="counts-header">
+          <h2>Current totals in inventory!</h2>
+        </div>
+        <div class="vehicle-count-container">
+          <p>
+            There are <strong><%= data.vehicle_count %> vehicles</strong> in
+            stock!
+          </p>
+        </div>
+        <div class="manufacture-count-container">
+          <p>
+            There's a total of
+            <strong><%= data.manufacture_count %> Manufactures</strong>
+          </p>
+        </div>
+        <div class="type-count-container">
+          <p>
+            There's a total of <strong><%= data.type_count %> Types</strong>
+          </p>
+        </div>
+      </div>
+      <% } %>
+    </section>
   </body>
 </html>
