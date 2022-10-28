@@ -169,11 +169,79 @@ exports.type_delete_post = (req, res, next) => {
 };
 
 // Display Type update form on GET.
-exports.type_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type update GET");
+exports.type_update_get = (req, res, next) => {
+  // get Type to populate form values
+  async.parallel(
+    {
+      type(callback) {
+        Type.findById(req.params.id).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.type == null) {
+        // no results
+        const err = new Error("Type not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Success
+      res.render("type_form", {
+        title: "Update Type",
+        type: results.type,
+      });
+    }
+  );
 };
 
 // Handle Type update on POST.
-exports.type_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type update POST");
-};
+exports.type_update_post = [
+  // Validate and sanitize fields.
+  body("name", "Type name must be specified!")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    // Create a Type object with escaped/trimmed data and old id.
+    const type = new Type({
+      name: req.body.name,
+      _id: req.params.id, //This is required, or a new ID will be assigned!
+    });
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+
+      // Get all manufactures and types for form.
+      async.parallel(
+        {
+          type(callback) {
+            Type.find(callback);
+          },
+        },
+        (err, results) => {
+          if (err) {
+            return next(err);
+          }
+          res.render("type_form", {
+            title: "Update Type",
+            type: results.type,
+            errors: errors.array(),
+          });
+        }
+      );
+      return;
+    }
+    // Data from form is valid. Update the record.
+    Type.findByIdAndUpdate(req.params.id, type, {}, (err, thetype) => {
+      if (err) {
+        return next(err);
+      }
+      // Successful: redirect to type detail page.
+      res.redirect(thetype.url);
+    });
+  },
+];
