@@ -1,5 +1,6 @@
 const Type = require("../models/type");
 const Vehicle = require("../models/vehicle");
+const { body, validationResult } = require("express-validator");
 
 const async = require("async");
 
@@ -52,13 +53,54 @@ exports.type_detail = (req, res, next) => {
 
 // Display Type create form on GET.
 exports.type_create_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type create GET");
+  res.render("type_form", { title: "Create Type" });
 };
 
 // Handle Type create on POST.
-exports.type_create_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type create POST");
-};
+exports.type_create_post = [
+  // Validate and sanitize the name field.
+  body("name", "Name of type required").trim().isLength({ min: 1 }).escape(),
+
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a genre object with escaped and trimmed data.
+    const type = new Type({ name: req.body.name });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("type_form", {
+        title: "Create Type",
+        type,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid.
+      // Check if type with same name already exists.
+      Type.findOne({ name: req.body.name }).exec((err, found_type) => {
+        if (err) {
+          return next(err);
+        }
+
+        if (found_type) {
+          // type exists, redirect to its detail page.
+          res.redirect(found_type.url);
+        } else {
+          type.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            // type saved. Redirect to type detail page.
+            res.redirect(type.url);
+          });
+        }
+      });
+    }
+  },
+];
 
 // Display Type delete form on GET.
 exports.type_delete_get = (req, res) => {
