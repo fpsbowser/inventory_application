@@ -11,6 +11,10 @@
   <body>
     <section class="upper">
       <h1 class="header-text"><%= type.name %></h1>
+      <div class="edit-delete-container">
+        <p id="delete-btn"><a href="<%= type.url %>/delete">Delete Type</a></p>
+        <p id="update-btn"><a href="<%= type.url %>/update">Update Type</a></p>
+      </div>
     </section>
     <section class="content">
       <div class="card-container">
