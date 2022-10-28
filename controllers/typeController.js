@@ -66,7 +66,7 @@ exports.type_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
-    // Create a genre object with escaped and trimmed data.
+    // Create a type object with escaped and trimmed data.
     const type = new Type({ name: req.body.name });
 
     if (!errors.isEmpty()) {
@@ -161,7 +161,7 @@ exports.type_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        // Success - go to author list
+        // Success - go to type list
         res.redirect("/inventory/types");
       });
     }
