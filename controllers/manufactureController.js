@@ -179,7 +179,7 @@ exports.manufacture_delete_post = (req, res, next) => {
         if (err) {
           return next(err);
         }
-        // Success - go to author list
+        // Success - go to manufacture list
         res.redirect("/inventory/manufactures");
       });
     }
@@ -187,11 +187,114 @@ exports.manufacture_delete_post = (req, res, next) => {
 };
 
 // Display Manufacture update form on GET.
-exports.manufacture_update_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Manufacture update GET");
+exports.manufacture_update_get = (req, res, next) => {
+  // get Manufacture to populate form values
+  async.parallel(
+    {
+      manufacture(callback) {
+        Manufacture.findById(req.params.id).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.manufacture == null) {
+        // no results
+        const err = new Error("Vehicle not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Success
+      res.render("manufacture_form", {
+        title: "Update Manufacture",
+        manufacture: results.manufacture,
+      });
+    }
+  );
 };
 
 // Handle Manufacture update on POST.
-exports.manufacture_update_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Manufacture update POST");
-};
+exports.manufacture_update_post = [
+  // Validate and sanitize fields.
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Company name must be specified."),
+  body("founded", "Invalid date")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+  body("founder")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Founder must be specified."),
+  body("headquarters")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Headquarters must be specified."),
+  body("description")
+    .trim()
+    .isLength({ min: 10 })
+    .escape()
+    .withMessage(
+      "Description must be specified and at least 10 characters long."
+    ),
+  // Process request after validation and sanitization.
+  (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create a Manufacture object with escaped/trimmed data and old id.
+    const manufacture = new Manufacture({
+      name: req.body.name,
+      founded: req.body.founded,
+      founder: req.body.founder,
+      headquarters: req.body.headquarters,
+      description: req.body.description,
+      _id: req.params.id, //This is required, or a new ID will be assigned!
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/error messages.
+
+      // Get manufacture for form.
+      async.parallel(
+        {
+          manufacture(callback) {
+            Manufacture.find(callback);
+          },
+        },
+        (err, results) => {
+          if (err) {
+            return next(err);
+          }
+          res.render("manufacture_form", {
+            title: "Update Manufacture",
+            manufacture: results.manufacture,
+            errors: errors.array(),
+          });
+        }
+      );
+      return;
+    }
+
+    // Data from form is valid. Update the record.
+    Manufacture.findByIdAndUpdate(
+      req.params.id,
+      manufacture,
+      {},
+      (err, themanufacture) => {
+        if (err) {
+          return next(err);
+        }
+
+        // Successful: redirect to manufacture detail page.
+        res.redirect(themanufacture.url);
+      }
+    );
+  },
+];
