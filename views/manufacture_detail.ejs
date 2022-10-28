@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= manufacture.name %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <header class="nav-header-container"><%- include('partials/header')%></header>
+  <body>
+    <section class="upper">
+    </section>
+    <section class="content">
+      <div class="content-wrapper">
+        <div class="manufacture-info-container">
+          <h1 id="manufacture-name"><%= manufacture.name %></h1>
+          <div class="edit-delete-container">
+            <p id="delete-btn"><a href="<%= manufacture.url %>/delete">Delete Manufacture</a></p>
+            <p id="update-btn"><a href="<%= manufacture.url %>/update">Update Manufacture</a></p>
+          </div>
+          <div class="manufacture-info-container">
+            <p id="manufacture-info">
+              <strong>Headquarters: </strong><%= manufacture.headquarters %>
+            </p>
+            <p id="manufacture-info">
+              <strong>Founder: </strong><%= manufacture.founder %>
+            </p>
+            <p id="manufacture-info">
+              <strong>Founded: </strong><%= manufacture.founded_formatted %>
+            </p>
+            <p id="manufacture-info"><%= manufacture.description %></p>
+          </div>
+        </div>
+        <div class="vehicles">
+          <h1 id="manufacture-vehicles">Vehicles</h1>
+          <div class="card-container">
+            <% if (manufacture_vehicles.length == 0) { %>
+            <h2 id="manufacture-none">
+              There is currently no vehicles with the manufacture of
+              <strong><%= manufacture.name %></strong> in inventory!
+            </h2>
+            <% } %> <% manufacture_vehicles.forEach(vehicle => { %>
+            <div class="manufacture-card">
+              <a href="<%-vehicle.url%>" id="manufacture-card-model"
+                ><%= vehicle.model %></a
+              >
+              <p id="card-label">Color:</p>
+              <p id="card-color"><%= vehicle.color %></p>
+              <p id="card-label">Miles:</p>
+              <p id="card-miles"><%= vehicle.miles %></p>
+              <p id="manufacture-card-price">$<%= vehicle.price %></p>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script src="/javascripts/script.js"></script>
+</html>

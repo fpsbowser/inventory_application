@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <header class="nav-header-container"><%- include('partials/header')%></header>
+  <body>
+    <section class="upper">
+      <h1 class="header-text"><%= title %></h1>
+    </section>
+    <section class="content">
+        <div class="form-container">
+            <form method="POST" action="">
+              <label for="name">Manufacture name:</label>
+              <br>
+              <input type="text" name="name" id="name" required="true" placeholder="Toyota, BMW etc." <% if(locals.manufacture) {%> value="<%= manufacture.name %>" <% } %>/>
+              <br>
+              <label for="founded">Date founded:</label>
+              <br>
+              <input type="date" name="founded" id="founded" required="true" <% if(locals.manufacture) {%> value="<%= manufacture.founded %>" <% } %>/>
+              <br>
+              <label for="founder">Name of founder:</label>
+              <br>
+              <input type="text" name="founder" id="founder" required="true" placeholder="Elon Musk, Henry Ford etc." <% if(locals.manufacture) {%> value="<%= manufacture.founder %>" <% } %>/>
+              <br>
+              <label for="headquarters">Headquarters location:</label>
+              <br>
+              <input type="text" name="headquarters" id="headquarters" required="true" placeholder="Location" <% if(locals.manufacture) {%> value="<%= manufacture.headquarters %>" <% } %>/>
+              <br>
+              <label for="description">Description:</label>
+              <br>
+              <input type="text" name="description" id="description" required="true" placeholder="Something descriptive" <% if(locals.manufacture) {%> value="<%= manufacture.description %>" <% } %>/>
+              <br>
+              <button type="submit" id="submit-btn">Submit</button>
+            </form>
+            <% if (locals.errors) { %>
+             <ul>
+                <% errors.forEach(error => { %>
+                 <li><%- error.msg %></li>
+                <% }) %>
+             </ul>
+            <% } %>
+        </div>
+    </section>
+  </body>
+  <script src="/javascripts/script.js"></script>
+</html>
