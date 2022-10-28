@@ -103,13 +103,69 @@ exports.type_create_post = [
 ];
 
 // Display Type delete form on GET.
-exports.type_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type delete GET");
+exports.type_delete_get = (req, res, next) => {
+  async.parallel(
+    {
+      type(callback) {
+        Type.findById(req.params.id).exec(callback);
+      },
+      type_vehicles(callback) {
+        Vehicle.find({ type: req.params.id }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      if (results.type_vehicles == null) {
+        // No results.
+        res.redirect("/inventory/types");
+      }
+      // Successful, so render.
+      res.render("type_delete", {
+        title: "Delete Type",
+        type: results.type,
+        type_vehicles: results.type_vehicles,
+      });
+    }
+  );
 };
 
 // Handle Type delete on POST.
-exports.type_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: Type delete POST");
+exports.type_delete_post = (req, res, next) => {
+  async.parallel(
+    {
+      type(callback) {
+        Type.findById(req.body.typeid).exec(callback);
+      },
+      type_vehicles(callback) {
+        Vehicle.find({ make: req.body.typeid }).exec(callback);
+      },
+    },
+    (err, results) => {
+      if (err) {
+        return next(err);
+      }
+      // Success
+      if (results.type_vehicles.length > 0) {
+        // Type has vehicles. Render in same way as for GET route.
+        res.render("type_delete", {
+          title: "Delete Type",
+          type: results.type,
+          type_vehicles: results.type_vehicles,
+        });
+        return;
+      }
+      // Type has no vehicles. Delete object and redirect to the list of types.
+      Type.findByIdAndRemove(req.body.typeid, (err) => {
+        if (err) {
+          return next(err);
+        }
+        // Success - go to author list
+        res.redirect("/inventory/types");
+      });
+    }
+  );
 };
 
 // Display Type update form on GET.
