@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-// const mongoDB = require("./secure");
+const mongoDB = require("./secure");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -14,9 +14,6 @@ const helmet = require("helmet");
 var app = express();
 
 //Setup Mongoose
-const dev_db_url =
-  "mongodb+srv://prattdakota12:r0prwnNeQxGjMTFa@cluster0.8zmecnm.mongodb.net/?retryWrites=true&w=majority";
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
 const mongoose = require("mongoose");
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
