@@ -1,9 +1,233 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Kanit:ital,wght@1,900&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+* {
+  font-family: "JetBrains Mono", monospace;
+}
+
 body {
-  padding: 50px;
+  font-family: "JetBrains Mono", monospace;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: blanchedalmond;
+  background-color: rgb(167, 167, 167);
 }
 
 a {
-  color: #00b7ff;
+  color: black;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.navbar {
+  display: flex;
+  /* justify-content: space-evenly; */
+  background-color: red;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.nav-item {
+  width: 100%;
+  text-align: center;
+  border: 2px solid white;
+}
+
+ul {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+li {
+  text-decoration: none;
+}
+
+.upper,
+.content {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-text {
+  color: black;
+  font-size: 3rem;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1rem;
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: space-between;
+  background-color: white;
+  padding: 1rem;
+  border: 4px solid black;
+  border-radius: 15px;
+}
+
+.manufacture-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 300px;
+  align-items: center;
+
+  background-color: white;
+  padding: 1rem;
+  border: 4px solid black;
+  border-radius: 15px;
+}
+
+#manufacture-card-model,
+#manufacture-card-price {
+  font-size: 1.3rem;
+  grid-column: span 2;
+}
+
+#card-header {
+  font-size: 1.2rem;
+}
+
+#card-label {
+  font-weight: 800;
+}
+
+#card-headquarters {
+  font-size: 0.8rem;
+}
+
+#card-price {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.content-wrapper {
+  display: grid;
+  padding-top: 1rem;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.vehicle-information {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#model-header {
+  font-size: 2rem;
+  grid-column: span 2;
+}
+
+#description {
+  font-size: 1.3rem;
+  grid-column: span 2;
+  padding-bottom: 1rem;
+}
+
+#lebel {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+#vehicle-info {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.info-tile,
+.description-tile {
+  display: grid;
+  text-align: center;
+  border: 2px solid black;
+  background-color: white;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+#description-header {
+  font-size: 2rem;
+  font-weight: 800;
+  grid-column: span 2;
+}
+
+#manufacture-name,
+#manufacture-vehicles {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+#manufacture-vehicles {
+  color: white;
+}
+
+#manufacture-info {
+  font-size: 1.3rem;
+}
+
+.manufacture-info-container {
+  background-color: white;
+}
+
+.vehicles {
+  background-color: black;
+  padding: 1rem;
+}
+
+.img-template {
+  border: 2px solid black;
+}
+
+input {
+  width: 300px;
+  height: 2rem;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin-top: 1rem;
+}
+
+label {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+#submit-btn {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 1rem;
+}
+
+#manufacture-none {
+  color: white;
+}
+
+.error-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  color: red;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.edit-delete-container {
+  display: flex;
+  justify-content: center;
+  font-size: 1.4rem;
+  gap: 4rem;
+}
+
+#delete-button {
+  padding: 1.5rem 2.5rem;
+  color: black;
+  background-color: rgb(0, 119, 255);
+  border: 3px solid black;
+  border-radius: 20px;
 }
