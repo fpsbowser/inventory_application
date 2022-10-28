@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <header class="nav-header-container"><%- include('partials/header')%></header>
+  <body>
+    <section class="upper">
+      <h1 class="header-text"><%= title %></h1>
+    </section>
+    <section class="content">
+        <div class="form-container">
+            <form method="POST" action="">
+              <label for="name">Type:</label>
+              <br>
+              <input type="text" name="name" id="name" required="true" placeholder="SUV, Tank etc." <% if(locals.type) {%> value="<%= type.name %>" <% } %>/>
+              <br>
+              <button type="submit" id="submit-btn">Submit</button>
+            </form>
+            <% if (locals.errors) { %>
+             <ul>
+                <% errors.forEach(error => { %>
+                 <li><%- error.msg %></li>
+                <% }) %>
+             </ul>
+            <% } %>
+        </div>
+    </section>
+  </body>
+  <script src="/javascripts/script.js"></script>
+</html>
